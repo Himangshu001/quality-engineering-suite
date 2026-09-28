@@ -28,7 +28,7 @@ jobs:
 
       - name: Run pytest
         working-directory: api-tests
-        run: pytest -v
+        run: python -mpytest -v
 
   frontend-tests:
     name: Playwright Tests
