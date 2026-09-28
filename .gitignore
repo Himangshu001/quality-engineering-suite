@@ -1,0 +1,14 @@
+# Node / Playwright
+frontend-tests/node_modules/
+frontend-tests/test-results/
+frontend-tests/playwright-report/
+frontend-tests/blob-report/
+
+# Python
+api-tests/.venv/
+api-tests/__pycache__/
+api-tests/.pytest_cache/
+api-tests/*.pyc
+
+# VS Code
+.vscode/
