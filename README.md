@@ -40,3 +40,15 @@ quality-engineering-suite/
 │   ├── package.json
 │   └── playwright.config.ts
 └── .gitignore
+
+## Current Test Suite
+
+| Area | Tests | Browsers |
+|---|---:|---|
+| Playwright UI | 3 scenarios | Chromium, Firefox, WebKit |
+| API / Pytest | 5 scenarios | Python |
+| CI | Automated | GitHub Actions |
+
+### Latest CI Status
+
+GitHub Actions currently runs both API and Playwright test suites on pushes and pull requests to `main`.
