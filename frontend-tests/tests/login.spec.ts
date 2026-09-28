@@ -1,64 +1,39 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
 
 test('user can log in with valid credentials', async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-    // Step 1: Open our local login application
-    await page.goto('/');
+  await loginPage.goto();
+  await loginPage.login('tester@example.com', 'Test123!');
 
-    // Step 2: Enter the email
-    await page.getByLabel('Email').fill('tester@example.com');
-
-    // Step 3: Enter the password
-    await page.getByLabel('Password').fill('Test123!');
-
-    // Step 4: Click the Login button
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    // Step 5: Verify the success message
-    await expect(page.getByText('Login successful!')).toBeVisible();
-
+  await loginPage.expectSuccessMessage();
 });
 
 test('user cannot log in with invalid credentials', async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-    // Step 1: Open the login application
-    await page.goto('/');
+  await loginPage.goto();
+  await loginPage.login('wrong@example.com', 'Wrong123!');
 
-    // Step 2: Enter an incorrect email
-    await page.getByLabel('Email').fill('wrong@example.com');
-
-    // Step 3: Enter an incorrect password
-    await page.getByLabel('Password').fill('Wrong123!');
-
-    // Step 4: Click the Login button
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    // Step 5: Verify the error message
-    await expect(
-        page.getByText('Invalid email or password')
-    ).toBeVisible();
-
+  await loginPage.expectErrorMessage();
 });
 
-
 test('user cannot log in with empty fields', async ({ page }) => {
-    await page.goto('/');
+  const loginPage = new LoginPage(page);
 
-    const email = page.getByLabel('Email');
-    const password = page.getByLabel('Password');
+  await loginPage.goto();
 
-    // Click Login without entering any credentials
-    await page.getByRole('button', { name: 'Login' }).click();
+  await loginPage.loginButton.click();
 
-    // Verify that the browser considers both fields invalid
-    const emailIsValid = await email.evaluate(
-        (element) => (element as HTMLInputElement).checkValidity()
-    );
+  const emailIsValid = await loginPage.emailInput.evaluate(
+    (element) => (element as HTMLInputElement).checkValidity()
+  );
 
-    const passwordIsValid = await password.evaluate(
-        (element) => (element as HTMLInputElement).checkValidity()
-    );
+  const passwordIsValid = await loginPage.passwordInput.evaluate(
+    (element) => (element as HTMLInputElement).checkValidity()
+  );
 
-    expect(emailIsValid).toBe(false);
-    expect(passwordIsValid).toBe(false);
+  expect(emailIsValid).toBe(false);
+  expect(passwordIsValid).toBe(false);
 });
