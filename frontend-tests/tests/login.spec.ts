@@ -1,11 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
+import { loginData } from '../test-data/loginData';
 
 test('user can log in with valid credentials', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.login('tester@example.com', 'Test123!');
+  await loginPage.login(
+  loginData.validUser.email,
+  loginData.validUser.password
+  );
 
   await loginPage.expectSuccessMessage();
 });
@@ -14,7 +18,10 @@ test('user cannot log in with invalid credentials', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.login('wrong@example.com', 'Wrong123!');
+  await loginPage.login(
+  loginData.invalidUser.email,
+  loginData.invalidUser.password
+  );
 
   await loginPage.expectErrorMessage();
 });
