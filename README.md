@@ -52,3 +52,9 @@ quality-engineering-suite/
 ### Latest CI Status
 
 GitHub Actions currently runs both API and Playwright test suites on pushes and pull requests to `main`.
+
+### Run Smoke Tests
+
+```powershell
+cd frontend-tests
+npm run test:smoke
