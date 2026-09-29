@@ -1,10 +1,5 @@
-from fastapi.testclient import TestClient
-from main import app
 
-client = TestClient(app)
-
-
-def test_health_check():
+def test_health_check(client):
     response = client.get("/health")
 
     assert response.status_code == 200
@@ -14,7 +9,7 @@ def test_health_check():
         "message": "Quality Engineering API is running"
     }
 
-def test_login_success():
+def test_login_success(client):
     response = client.post(
         "/login",
         json={
@@ -31,7 +26,7 @@ def test_login_success():
     }
 
 
-def test_login_invalid_credentials():
+def test_login_invalid_credentials(client):
     response = client.post(
         "/login",
         json={
@@ -48,7 +43,7 @@ def test_login_invalid_credentials():
     }
 
 
-def test_login_missing_password():
+def test_login_missing_password(client):
     response = client.post(
         "/login",
         json={
@@ -59,7 +54,7 @@ def test_login_missing_password():
     assert response.status_code == 422
 
 
-def test_login_empty_credentials():
+def test_login_empty_credentials(client):
     response = client.post(
         "/login",
         json={
