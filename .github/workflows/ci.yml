@@ -28,7 +28,15 @@ jobs:
 
       - name: Run pytest
         working-directory: api-tests
-        run: python -mpytest -v
+        run: python -m pytest -v --junitxml=api-test-results.xml
+
+      - name: Upload API test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: api-tests/api-test-results.xml
+          retention-days: 7
 
   frontend-tests:
     name: Playwright Tests
